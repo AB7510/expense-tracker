@@ -14,6 +14,7 @@ A simple web-based Expense Tracker built with HTML, CSS, PHP, and MySQL.
 - Frontend: HTML, CSS
 - Backend: PHP
 - Database: MySQL
+- Deployment: Docker-ready for Render and Railway
 
 ## Project Files
 
@@ -22,6 +23,8 @@ A simple web-based Expense Tracker built with HTML, CSS, PHP, and MySQL.
 - `view_expense.php`
 - `db.php`
 - `style.css`
+- `database.sql`
+- `Dockerfile`
 
 ## Database Setup
 
@@ -60,3 +63,47 @@ INSERT INTO categories (category_name) VALUES
 2. Start Apache and MySQL from XAMPP
 3. Import the database SQL
 4. Open `http://localhost/expense-tracker/`
+
+## Deploy on Render + Railway
+
+This repo is ready for deployment using Docker.
+
+### 1. Create a MySQL database on Railway
+
+Railway's official MySQL docs say the database service provides these variables:
+
+- `MYSQLHOST`
+- `MYSQLPORT`
+- `MYSQLUSER`
+- `MYSQLPASSWORD`
+- `MYSQLDATABASE`
+
+Import `database.sql` into that Railway MySQL database.
+
+### 2. Create a Web Service on Render
+
+Render's official Docker docs support deploying a web service directly from the `Dockerfile` in this repo.
+
+- Connect this GitHub repo to Render
+- Create a new `Web Service`
+- Set `Language` to `Docker`
+- Deploy the `main` branch
+
+### 3. Add environment variables in Render
+
+Copy the Railway MySQL values into your Render service environment variables:
+
+- `MYSQLHOST`
+- `MYSQLPORT`
+- `MYSQLUSER`
+- `MYSQLPASSWORD`
+- `MYSQLDATABASE`
+
+The Docker container already starts PHP on `0.0.0.0:$PORT`, which matches Render and Railway public networking requirements.
+
+## Official Docs
+
+- Render Web Services: https://render.com/docs/web-services
+- Render Docker Deploys: https://render.com/docs/docker
+- Railway MySQL: https://docs.railway.com/guides/mysql
+- Railway Variables: https://docs.railway.com/develop/variables
